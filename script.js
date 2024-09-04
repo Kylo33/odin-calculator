@@ -17,8 +17,9 @@ function divide(a, b) {
 let firstNumber;
 let secondNumber;
 let operator;
+let displayValue = 0;
 
-function operate(operator, firstNumber, secondNumber) {
+function operate() {
     const operations = {
         "+": add,
         "-": subtract,
@@ -28,3 +29,13 @@ function operate(operator, firstNumber, secondNumber) {
 
     return operations[operator](firstNumber, secondNumber);
 }
+
+document.addEventListener("click", event => {
+    if (event.target.tagName !== "BUTTON") return;
+    const classList = event.target.classList;
+    const tagText = event.target.textContent;
+    if (classList.contains("number")) {
+        displayValue = displayValue * 10 + parseInt(tagText);
+        document.querySelector("#text").textContent = displayValue;
+    }
+})
