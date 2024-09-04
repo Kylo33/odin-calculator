@@ -1,3 +1,9 @@
+#text,
+button {
+    font-size: 30px;
+    font-family: monospace;
+}
+
 .container {
     display: flex;
     width: 320px;
@@ -13,4 +19,11 @@
 #display {
     height: 80px;
     width: 100%;
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.operator {
+    background-color: coral;
 }
