@@ -1,41 +1,60 @@
-function add(a, b) {
-    return a + b;
+const add = (a, b) => a + b;
+const subtract = (a, b) => a - b;
+const multiply = (a, b) => a * b;
+const divide = (a, b) => a / b;
+
+const operations = {
+    "+": add,
+    "-": subtract,
+    "*": multiply,
+    "/": divide,
+};
+
+const operate = (operator, a, b) => operations[operator](a, b);
+
+let operator = "+";
+let firstNumber = 0;
+let secondNumber = 0;
+let display = "";
+let input = "";
+
+function addNumberToDisplay(stringNumber) {
+    if (input === "") display = "";
+    input += stringNumber;
+    display += stringNumber;
 }
 
-function subtract(a, b) {
-    return a - b;
+function clear() {
+    operator = "+";
+    firstNumber = 0;
+    secondNumber = 0;
+    display = "";
+    input = "";
 }
 
-function multiply(a, b) {
-    return a * b;
+function selectOperator(operatorString) {
+    // If there was another pending operation, complete that one (it gets stored in firstNumber)
+    // ex: 1 + 2 + 3 (a four function calculator would solve 1 + 2 when you press the next operator)
+    if (input) equals();
+
+    operator = operatorString; // the new operator
+
+    // Store the display as the first number and clean the 'canvas'
+    firstNumber = parseInt(display);
+    input = "";
 }
 
-function divide(a, b) {
-    return a / b;
+function equals() {
+    if (input) secondNumber = parseInt(input);
+    firstNumber = operate(operator, firstNumber, secondNumber);
+    display = firstNumber.toString();
+    input = "";
 }
 
-let firstNumber;
-let secondNumber;
-let operator;
-let displayValue = 0;
-
-function operate() {
-    const operations = {
-        "+": add,
-        "-": subtract,
-        "*": multiply,
-        "/": divide,
-    }
-
-    return operations[operator](firstNumber, secondNumber);
-}
-
-document.addEventListener("click", event => {
-    if (event.target.tagName !== "BUTTON") return;
-    const classList = event.target.classList;
-    const tagText = event.target.textContent;
-    if (classList.contains("number")) {
-        displayValue = displayValue * 10 + parseInt(tagText);
-        document.querySelector("#text").textContent = displayValue;
-    }
-})
+document.addEventListener("click", e => {
+    const cl = e.target.classList;
+    if (cl.contains("number")) addNumberToDisplay(e.target.textContent);
+    else if (cl.contains("clear")) clear();
+    else if (cl.contains("operator")) selectOperator(e.target.textContent)
+    else if (cl.contains("equals")) equals();
+});
