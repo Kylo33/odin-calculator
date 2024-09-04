@@ -1,0 +1,16 @@
+.container {
+    display: flex;
+    width: 320px;
+    flex-wrap: wrap;
+}
+
+.container > button {
+    width: 80px;
+    height: 80px;
+    box-sizing: border-box;
+}
+
+#display {
+    height: 80px;
+    width: 100%;
+}
