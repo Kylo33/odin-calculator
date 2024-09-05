@@ -18,10 +18,14 @@ let secondNumber = 0;
 let display = "";
 let input = "";
 
+function updateDOMDisplay() {
+    document.querySelector("#text").textContent = display ? display : 0;
+}
+
 function addNumberToDisplay(stringNumber) {
-    if (input === "") display = "";
     input += stringNumber;
-    display += stringNumber;
+    display = input;
+    updateDOMDisplay();
 }
 
 function clear() {
@@ -30,6 +34,7 @@ function clear() {
     secondNumber = 0;
     display = "";
     input = "";
+    updateDOMDisplay();
 }
 
 function selectOperator(operatorString) {
@@ -49,6 +54,7 @@ function equals() {
     firstNumber = operate(operator, firstNumber, secondNumber);
     display = firstNumber.toString();
     input = "";
+    updateDOMDisplay();
 }
 
 document.addEventListener("click", e => {
