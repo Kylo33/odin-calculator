@@ -40,7 +40,7 @@ function selectOperator(operatorString) {
     operator = operatorString; // the new operator
 
     // Store the display as the first number and clean the 'canvas'
-    firstNumber = parseInt(display);
+    firstNumber = display ? parseInt(display) : 0;
     input = "";
 }
 
