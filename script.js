@@ -1,3 +1,5 @@
+const DISPLAY_MAX_DIGITS = 12;
+
 const add = (a, b) => a + b;
 const subtract = (a, b) => a - b;
 const multiply = (a, b) => a * b;
@@ -19,10 +21,36 @@ let display = "";
 let input = "";
 
 function updateDOMDisplay() {
-    document.querySelector("#text").textContent = display ? display : 0;
+    const displayText = display ? display : "0";
+    const displayTextNumber = parseFloat(displayText);
+
+    if (isNaN(displayTextNumber)) {
+        document.querySelector("#text").textContent = displayText;
+        return;
+    }
+
+    const inScientificNotation = parseInt(displayTextNumber.toExponential().split("e")[1]) > 11;
+    if (inScientificNotation) {
+        const splitNotation = displayTextNumber.toExponential().split("e");
+        const base = parseFloat(splitNotation[0]);
+        const power = parseInt(splitNotation[1]);
+        const powerString = "e" + splitNotation[1];
+
+        const newBase = parseFloat(base.toFixed(DISPLAY_MAX_DIGITS - powerString.length - 2));
+        document.querySelector("#text").textContent = newBase.toString() + powerString;
+    } else {
+        const hasDecimal = displayText.includes(".");
+        if (!hasDecimal) {
+            document.querySelector("#text").textContent = displayTextNumber;
+            return;
+        }
+        const decimalPlacesAllowed = DISPLAY_MAX_DIGITS - Math.floor(displayTextNumber).toString().length - 1;
+        document.querySelector("#text").textContent = parseFloat(displayTextNumber.toFixed(decimalPlacesAllowed));
+    }
 }
 
 function addNumberToDisplay(stringNumber) {
+    if (input.length + 1 > DISPLAY_MAX_DIGITS) return;
     input += stringNumber;
     display = input;
     updateDOMDisplay();
@@ -45,12 +73,18 @@ function selectOperator(operatorString) {
     operator = operatorString; // the new operator
 
     // Store the display as the first number and clean the 'canvas'
-    firstNumber = display ? parseInt(display) : 0;
+    firstNumber = display ? parseFloat(display) : 0;
     input = "";
 }
 
 function equals() {
-    if (input) secondNumber = parseInt(input);
+    if (input) secondNumber = parseFloat(input);
+    if (operator === "/" && secondNumber === 0) {
+        clear();
+        display = "Bonk! :3";
+        updateDOMDisplay();
+        return;
+    }
     firstNumber = operate(operator, firstNumber, secondNumber);
     display = firstNumber.toString();
     input = "";
