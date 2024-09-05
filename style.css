@@ -1,19 +1,48 @@
+html {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0;
+    padding: 0;
+    background-color: #39356F;
+}
+
 #text,
 button {
-    font-size: 30px;
+    font-size: 42px;
     font-family: monospace;
 }
 
 .container {
     display: flex;
-    width: 320px;
+    width: 340px;
     flex-wrap: wrap;
+    background-color: #4A4591;
+    border-radius: 25px;
+    padding: 25px;
+    gap: 5px;
 }
 
 .container > button {
     width: 80px;
     height: 80px;
     box-sizing: border-box;
+    border: none;
+    border-radius: 25px;
+}
+
+.equals {
+    background-color: #847FB3;
+}
+
+.clear {
+    background-color: peachpuff;
 }
 
 #display {
@@ -22,8 +51,25 @@ button {
     display: flex;
     justify-content: end;
     align-items: center;
+    background-color: white;
+    border-radius: 25px;
+    padding: 0 15px;
 }
 
 .operator {
-    background-color: coral;
+    background-color: #6D66D4;
+}
+
+.number {
+    background-color: white;
+}
+
+.container,
+.container > button,
+#display {
+    box-shadow: #201e3e8a 0px 3px 3px 1px;
+}
+
+.container > button:active {
+    opacity: .8;
 }
